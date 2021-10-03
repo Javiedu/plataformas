@@ -113,20 +113,26 @@ create:function(){
     this.barreras_temp.setAll('enableBody', true)
     this.barreras_temp.setAll('body.immovable', true)
     this.barreras_temp.setAll('alpha', 0);
+
+    this.game.physics.arcade.enable(this.meta)
+    this.metaenableBody = true;
+    this.meta.body.immovable = true;
 },
 
 update:function(){
     suelo = false;
     t_barrera = false;
     tiempo += 1;
-    if(tiempo == 80){ tiempo = 0 }
+    if(tiempo == 76){ tiempo = 0 }
 
     if( tiempo == 0 ){ temp = true }
-    if( tiempo == 40 ){ temp = false }
+    if( tiempo == 38 ){ temp = false }
 
     this.game.physics.arcade.collide(this.jugador, this.plat_roj, function(jugador, plat_roj){
         jugador.body.x = 240
         jugador.body.y = 600
+        jugador.body.velocity.x = 0
+        jugador.body.velocity.y = 0
         tiempo = 0;
     })
 
@@ -154,6 +160,12 @@ update:function(){
         })
     }
 
+    this.game.physics.arcade.overlap(this.jugador, this.meta, function(){
+        game.add.text(100, 50, 'Has ganado')
+    })
+    
+    
+    
     if(this.input.keyboard.isDown(Phaser.Keyboard.LEFT) && this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && suelo == true && t_barrera == false){
         this.jugador.body.velocity.x = -400;
         this.jugador.body.velocity.y = -800;
