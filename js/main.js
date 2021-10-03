@@ -1,5 +1,7 @@
 var suelo;
 var tiempo = 0;
+var temp = true
+
 
 var mainState={
 
@@ -80,26 +82,36 @@ create:function(){
     this.game.physics.arcade.enable(this.plat_temp)
     this.plat_temp.setAll('enableBody', true)
     this.plat_temp.setAll('body.immovable', true)
-
 },
 
 update:function(){
-    tiempo += 1;
-    console.log(tiempo);
     suelo = false;
+    tiempo += 1;
+    if(tiempo == 80){ tiempo = 0 }
+    console.log(tiempo);
 
+    if( tiempo == 0 ){ temp = true }
+    if( tiempo == 40 ){ temp = false }
+    /*
     this.game.physics.arcade.collide(this.jugador, this.plat_roj, function(jugador, plat_roj){
         jugador.body.x = 240
         jugador.body.y = 600
         tiempo = 0;
     })
+    */
     this.game.physics.arcade.collide(this.jugador, this.plat_hor, function(jugador, plat_hor) {
         suelo = true
     })
     this.game.physics.arcade.collide(this.jugador, this.plat_ver)
-    this.game.physics.arcade.collide(this.jugador, this.plat_temp, function(){
+    
+    if(temp == true){
+        this.plat_temp.setAll('alpha', 1);
+        this.game.physics.arcade.collide(this.jugador, this.plat_temp, function(){
         suelo = true
-    })
+        })
+    } else {
+        this.plat_temp.setAll('alpha', 0);
+    }
 
     if(this.input.keyboard.isDown(Phaser.Keyboard.LEFT) && this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && suelo == true){
         this.jugador.body.velocity.x = -400;
