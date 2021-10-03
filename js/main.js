@@ -10,6 +10,8 @@ preload:function(){
     game.load.image('fondo', 'assets/fondo1.png')
     game.load.image('jugador', 'assets/40x40b.png')
     game.load.image('meta', 'assets/meta.png')
+    game.load.image('b_lateral', 'assets/borde_lateral.png')
+    game.load.image('b_inferior', 'assets/borde_inferior.png')
     game.load.image('barrera_v', 'assets/barrera_v.png')
     game.load.image('barrera_h', 'assets/barrera_h.png')
     game.load.image('plat_h2b', 'assets/80x40b.png')
@@ -39,6 +41,7 @@ create:function(){
     this.plat_temp = game.add.group()
     this.barreras = game.add.group()
     this.barreras_temp = game.add.group()
+    this.bordes = game.add.group()
 
 
     this.plat_hor.create(240, 640, 'plat_h5b');
@@ -77,6 +80,10 @@ create:function(){
     this.barreras_temp.create(1000, 240, 'barrera_v')
     this.barreras_temp.create(1035, 360, 'barrera_v')
 
+    this.bordes.create(0, 0, 'b_lateral')
+    this.bordes.create(1280, 0, 'b_lateral')
+    this.bordes.create(0, 740, 'b_inferior')
+
     //this.plat_temp.create(1000, 160, 'plat_h3t')
 
     this.meta = game.add.sprite(410, 280, 'meta');
@@ -114,6 +121,11 @@ create:function(){
     this.barreras_temp.setAll('body.immovable', true)
     this.barreras_temp.setAll('alpha', 0);
 
+    this.game.physics.arcade.enable(this.bordes)
+    this.bordes.setAll('enableBody', true)
+    this.bordes.setAll('body.immovable', true)
+    //this.bordes.setAll('alpha', 0);
+
     this.game.physics.arcade.enable(this.meta)
     this.metaenableBody = true;
     this.meta.body.immovable = true;
@@ -136,7 +148,7 @@ update:function(){
         tiempo = 0;
     })
 
-    this.game.physics.arcade.collide(this.jugador, this.plat_hor, function(jugador, plat_hor) {
+    this.game.physics.arcade.collide(this.jugador, this.plat_hor, function(jugador) {
         suelo = true
     })
     this.game.physics.arcade.collide(this.jugador, this.plat_ver)
@@ -162,6 +174,14 @@ update:function(){
 
     this.game.physics.arcade.overlap(this.jugador, this.meta, function(){
         game.add.text(100, 50, 'Has ganado')
+    })
+
+    this.game.physics.arcade.overlap(this.jugador, this.bordes, function(jugador){
+        jugador.body.x = 240
+        jugador.body.y = 600
+        jugador.body.velocity.x = 0
+        jugador.body.velocity.y = 0
+        tiempo = 0;
     })
     
     
