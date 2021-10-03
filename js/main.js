@@ -124,7 +124,7 @@ create:function(){
     this.game.physics.arcade.enable(this.bordes)
     this.bordes.setAll('enableBody', true)
     this.bordes.setAll('body.immovable', true)
-    //this.bordes.setAll('alpha', 0);
+    this.bordes.setAll('alpha', 0);
 
     this.game.physics.arcade.enable(this.meta)
     this.metaenableBody = true;

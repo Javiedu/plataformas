@@ -1,13 +1,15 @@
 Altura: 1290
 Anchura: 750
 
-Fondo: Degradados
+Relacion: 43:25
+
+Fondo: Colores Flat
 Tamaños: Multiplos de 40
 
 Personaje: Cubo blanco de 40x40 pixeles
 
 Plataformas:
 Blanco: Normal
-Vacio con bordes blancos: Desaparece a los 3s
+Vacio con bordes blancos: Aparecen y desapecen.
 Rojo: Elimina
 Naranja: Meta
