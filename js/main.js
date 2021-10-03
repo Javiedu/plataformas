@@ -1,6 +1,7 @@
 var suelo;
 var tiempo = 0;
 var temp = true
+var t_barrera = false;
 
 
 var mainState={
@@ -9,6 +10,8 @@ preload:function(){
     game.load.image('fondo', 'assets/fondo1.png')
     game.load.image('jugador', 'assets/40x40b.png')
     game.load.image('meta', 'assets/meta.png')
+    game.load.image('barrera_v', 'assets/barrera_v.png')
+    game.load.image('barrera_h', 'assets/barrera_h.png')
     game.load.image('plat_h2b', 'assets/80x40b.png')
     game.load.image('plat_h3b', 'assets/120x40b.png')
     game.load.image('plat_h5b', 'assets/200x40b.png')
@@ -34,6 +37,8 @@ create:function(){
     this.plat_ver = game.add.group()
     this.plat_roj = game.add.group()
     this.plat_temp = game.add.group()
+    this.barreras = game.add.group()
+    this.barreras_temp = game.add.group()
 
 
     this.plat_hor.create(240, 640, 'plat_h5b');
@@ -56,6 +61,22 @@ create:function(){
 
     this.plat_temp.create(1040, 360, 'plat_h2t')
     this.plat_temp.create(920, 240, 'plat_h2t')
+
+    this.barreras.create(920, 160, 'barrera_v')
+    this.barreras.create(1115, 160, 'barrera_v')
+    this.barreras.create(875, 440, 'barrera_v')
+    this.barreras.create(555, 520, 'barrera_v')
+    this.barreras.create(440, 640, 'barrera_v')
+    this.barreras.create(235, 640, 'barrera_v')
+    //this.barreras.create(400, 600, 'barrera_v')
+
+    this.barreras.create(450, 360, 'barrera_h')
+    this.barreras.create(410, 360, 'barrera_h')
+    this.barreras.create(370, 360, 'barrera_h')
+
+    this.barreras_temp.create(1000, 240, 'barrera_v')
+    this.barreras_temp.create(1035, 360, 'barrera_v')
+
     //this.plat_temp.create(1000, 160, 'plat_h3t')
 
     this.meta = game.add.sprite(410, 280, 'meta');
@@ -82,23 +103,33 @@ create:function(){
     this.game.physics.arcade.enable(this.plat_temp)
     this.plat_temp.setAll('enableBody', true)
     this.plat_temp.setAll('body.immovable', true)
+
+    this.game.physics.arcade.enable(this.barreras)
+    this.barreras.setAll('enableBody', true)
+    this.barreras.setAll('body.immovable', true)
+    this.barreras.setAll('alpha', 0);
+
+    this.game.physics.arcade.enable(this.barreras_temp)
+    this.barreras_temp.setAll('enableBody', true)
+    this.barreras_temp.setAll('body.immovable', true)
+    this.barreras_temp.setAll('alpha', 0);
 },
 
 update:function(){
     suelo = false;
+    t_barrera = false;
     tiempo += 1;
     if(tiempo == 80){ tiempo = 0 }
-    console.log(tiempo);
 
     if( tiempo == 0 ){ temp = true }
     if( tiempo == 40 ){ temp = false }
-    /*
+
     this.game.physics.arcade.collide(this.jugador, this.plat_roj, function(jugador, plat_roj){
         jugador.body.x = 240
         jugador.body.y = 600
         tiempo = 0;
     })
-    */
+
     this.game.physics.arcade.collide(this.jugador, this.plat_hor, function(jugador, plat_hor) {
         suelo = true
     })
@@ -113,10 +144,20 @@ update:function(){
         this.plat_temp.setAll('alpha', 0);
     }
 
-    if(this.input.keyboard.isDown(Phaser.Keyboard.LEFT) && this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && suelo == true){
+    this.game.physics.arcade.overlap(this.jugador, this.barreras, function(){
+        t_barrera = true
+    })
+
+    if(temp == true){
+        this.game.physics.arcade.collide(this.jugador, this.barreras_temp, function(){
+        t_barrera = true
+        })
+    }
+
+    if(this.input.keyboard.isDown(Phaser.Keyboard.LEFT) && this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && suelo == true && t_barrera == false){
         this.jugador.body.velocity.x = -400;
         this.jugador.body.velocity.y = -800;
-    } else if(this.input.keyboard.isDown(Phaser.Keyboard.RIGHT) && this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && suelo == true){
+    } else if(this.input.keyboard.isDown(Phaser.Keyboard.RIGHT) && this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && suelo == true && t_barrera == false){
         this.jugador.body.velocity.x = 400;
         this.jugador.body.velocity.y = -800;
     } else if(this.input.keyboard.isDown(Phaser.Keyboard.LEFT) && !suelo == true){
@@ -127,7 +168,7 @@ update:function(){
         this.jugador.body.velocity.x = -400;
     } else if (this.input.keyboard.isDown(Phaser.Keyboard.RIGHT) && suelo == true){
         this.jugador.body.velocity.x = 400;
-    } else if(this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && suelo == true){
+    } else if(this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && suelo == true && t_barrera == false){
         this.jugador.body.velocity.y = -800;
     } else if(suelo == true){
         this.jugador.body.velocity.x = 0;
