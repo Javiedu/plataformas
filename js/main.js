@@ -2,6 +2,7 @@ var suelo;
 var tiempo = 0;
 var temp = true
 var t_barrera = false;
+var ganado = false;
 
 
 var mainState={
@@ -50,7 +51,7 @@ create:function(){
     this.plat_hor.create(880, 440, 'plat_h6b');
     this.plat_hor.create(680, 160, 'plat_h6b');
     this.plat_hor.create(370, 320, 'plat_h3b');
-    this.plat_hor.create(1120, 160, 'plat_c');
+    //this.plat_hor.create(1120, 160, 'plat_c');
 
     this.plat_ver.create(560, 560, 'plat_v3b');
     this.plat_ver.create(880, 480, 'plat_v2b');
@@ -61,13 +62,14 @@ create:function(){
     this.plat_roj.create(490, 320, 'plat_h3r');
     this.plat_roj.create(250, 320, 'plat_h3r');
     this.plat_roj.create(880, 200, 'plat_v4r');
+    this.plat_roj.create(1080, 160, 'plat_h2r');
 
     this.plat_temp.create(1040, 360, 'plat_h2t')
     this.plat_temp.create(920, 240, 'plat_h2t')
 
     this.barreras.create(920, 160, 'barrera_v')
-    this.barreras.create(1115, 160, 'barrera_v')
-    this.barreras.create(1115, 200, 'barrera_v')
+    //this.barreras.create(1115, 160, 'barrera_v')
+    //this.barreras.create(1115, 200, 'barrera_v')
     this.barreras.create(875, 440, 'barrera_v')
     this.barreras.create(555, 520, 'barrera_v')
     this.barreras.create(440, 640, 'barrera_v')
@@ -178,9 +180,12 @@ update:function(){
         })
     }
 
-    this.game.physics.arcade.overlap(this.jugador, this.meta, function(){
-        game.add.text(100, 50, 'Has ganado')
-    })
+    if( ganado == false ){
+        this.game.physics.arcade.overlap(this.jugador, this.meta, function(){
+            game.add.text(100, 50, 'Has ganado');
+            ganado = true
+        })
+    }
 
     this.game.physics.arcade.overlap(this.jugador, this.bordes, function(jugador){
         jugador.body.x = 240
