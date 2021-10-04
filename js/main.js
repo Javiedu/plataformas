@@ -67,11 +67,12 @@ create:function(){
 
     this.barreras.create(920, 160, 'barrera_v')
     this.barreras.create(1115, 160, 'barrera_v')
+    this.barreras.create(1115, 200, 'barrera_v')
     this.barreras.create(875, 440, 'barrera_v')
     this.barreras.create(555, 520, 'barrera_v')
     this.barreras.create(440, 640, 'barrera_v')
     this.barreras.create(235, 640, 'barrera_v')
-    //this.barreras.create(400, 600, 'barrera_v')
+    
 
     this.barreras.create(450, 360, 'barrera_h')
     this.barreras.create(410, 360, 'barrera_h')
@@ -119,7 +120,7 @@ create:function(){
     this.game.physics.arcade.enable(this.barreras)
     this.barreras.setAll('enableBody', true)
     this.barreras.setAll('body.immovable', true)
-    this.barreras.setAll('alpha', 0);
+    //this.barreras.setAll('alpha', 0);
 
     this.game.physics.arcade.enable(this.barreras_temp)
     this.barreras_temp.setAll('enableBody', true)
@@ -189,7 +190,7 @@ update:function(){
         tiempo = 0;
     })
     
-    
+    console.log(suelo)
     
     if(this.input.keyboard.isDown(Phaser.Keyboard.LEFT) && this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && suelo == true && t_barrera == false){
         this.jugador.body.velocity.x = -400;
