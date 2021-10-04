@@ -80,6 +80,11 @@ create:function(){
     this.barreras_temp.create(1000, 240, 'barrera_v')
     this.barreras_temp.create(1035, 360, 'barrera_v')
 
+    this.barreras_temp.create(1040, 400, 'barrera_h')
+    this.barreras_temp.create(1080, 400, 'barrera_h')
+    this.barreras_temp.create(920, 280, 'barrera_h')
+    this.barreras_temp.create(960, 280, 'barrera_h')
+
     this.bordes.create(0, 0, 'b_lateral')
     this.bordes.create(1280, 0, 'b_lateral')
     this.bordes.create(0, 740, 'b_inferior')
@@ -167,7 +172,7 @@ update:function(){
     })
 
     if(temp == true){
-        this.game.physics.arcade.collide(this.jugador, this.barreras_temp, function(){
+        this.game.physics.arcade.overlap(this.jugador, this.barreras_temp, function(){
         t_barrera = true
         })
     }
