@@ -120,7 +120,7 @@ create:function(){
     this.game.physics.arcade.enable(this.barreras)
     this.barreras.setAll('enableBody', true)
     this.barreras.setAll('body.immovable', true)
-    //this.barreras.setAll('alpha', 0);
+    this.barreras.setAll('alpha', 0);
 
     this.game.physics.arcade.enable(this.barreras_temp)
     this.barreras_temp.setAll('enableBody', true)
@@ -189,9 +189,7 @@ update:function(){
         jugador.body.velocity.y = 0
         tiempo = 0;
     })
-    
-    console.log(suelo)
-    
+        
     if(this.input.keyboard.isDown(Phaser.Keyboard.LEFT) && this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && suelo == true && t_barrera == false){
         this.jugador.body.velocity.x = -400;
         this.jugador.body.velocity.y = -800;
