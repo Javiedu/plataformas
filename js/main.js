@@ -2,6 +2,7 @@ var suelo;
 var tiempo = 0;
 var temp = true
 var t_barrera = false;
+var cambio = 38;
 
 
 var mainState={
@@ -144,7 +145,11 @@ update:function(){
     if(tiempo == 76){ tiempo = 0 }
 
     if( tiempo == 0 ){ temp = true }
-    if( tiempo == 38 ){ temp = false }
+    if( tiempo == cambio && temp == true ){ 
+        temp = false;
+        cambio = Math.floor((Math.random() * (50 - 25)) + 25);
+        console.log(cambio)
+    }
 
     this.game.physics.arcade.collide(this.jugador, this.plat_roj, function(jugador, plat_roj){
         jugador.body.x = 240
