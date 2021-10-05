@@ -4,8 +4,7 @@ var temp = true
 var t_barrera = false;
 var cambio = 38;
 var ganado = false;
-
-
+var intentos = 0;
 
 var mainState={
 
@@ -159,6 +158,7 @@ update:function(){
         jugador.body.velocity.x = 0
         jugador.body.velocity.y = 0
         tiempo = 0;
+        intentos += 1
     })
 
     this.game.physics.arcade.collide(this.jugador, this.plat_hor, function(jugador) {
@@ -188,6 +188,7 @@ update:function(){
     if( ganado == false ){
         this.game.physics.arcade.overlap(this.jugador, this.meta, function(){
             game.add.text(100, 50, 'Has ganado');
+            game.add.text(1000, 50, intentos + ' Intentos');
             ganado = true
         })
     }
