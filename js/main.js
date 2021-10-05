@@ -150,8 +150,7 @@ update:function(){
     if( tiempo == 0 ){ temp = true }
     if( tiempo == cambio && temp == true ){ 
         temp = false;
-        cambio = Math.floor((Math.random() * (50 - 25)) + 25);
-        console.log(cambio)
+        cambio = Math.floor((Math.random() * (40 - 25)) + 25);
     }
 
     this.game.physics.arcade.collide(this.jugador, this.plat_roj, function(jugador, plat_roj){
