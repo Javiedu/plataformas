@@ -23,6 +23,7 @@ preload:function(){
     game.load.image('plat_h6b', 'assets/240x40b.png')
     game.load.image('plat_v2b', 'assets/40x80b.png')
     game.load.image('plat_v3b', 'assets/40x120b.png')
+    game.load.image('plat_v4b', 'assets/40x160b.png')
     game.load.image('plat_v7b', 'assets/40x280b.png')
     game.load.image('plat_h2r', 'assets/80x40r.png')
     game.load.image('plat_h3r', 'assets/120x40r.png')
@@ -51,20 +52,20 @@ create:function(){
 
 
     this.plat_hor.create(960, 640, 'plat_h5b')
-    this.plat_hor.create(880, 40, 'plat_h3b')
-    this.plat_hor.create(760, 160, 'plat_h5b')
-    this.plat_hor.create(640, 40, 'plat_h4b')
-    this.plat_hor.create(520, 160, 'plat_h4b')
-    this.plat_hor.create(520, 40, 'plat_c')
+    this.plat_hor.create(920, 40, 'plat_h2b')
+    this.plat_hor.create(800, 160, 'plat_h4b')
+    this.plat_hor.create(680, 40, 'plat_h4b')
+    this.plat_hor.create(640, 160, 'plat_h2b')
+    //this.plat_hor.create(520, 40, 'plat_c')
 
-    this.plat_ver.create(1160, 40, 'plat_v3b')
+    this.plat_ver.create(1160, 40, 'plat_v4b')
 
     this.plat_roj.create(920, 200, 'plat_v13r')
     this.plat_roj.create(1160, 200, 'plat_v13r')
     this.plat_roj.create(1000, 40, 'plat_h4r')
-    this.plat_roj.create(800, 40, 'plat_h2r')
-    this.plat_roj.create(680, 160, 'plat_h2r')
-    this.plat_roj.create(560, 40, 'plat_h2r')
+    this.plat_roj.create(840, 40, 'plat_h2r')
+    this.plat_roj.create(720, 160, 'plat_h2r')
+    this.plat_roj.create(600, 40, 'plat_h2r')
 
     this.plat_temp.create(960, 520, 'plat_h2t')
     this.plat_temp.create(1120, 520, 'plat_ct')
@@ -74,12 +75,6 @@ create:function(){
     this.plat_temp.create(1120, 280, 'plat_ct')
     this.plat_temp.create(1080, 160, 'plat_h2t')
     this.plat_temp.create(960, 160, 'plat_ct')
-
-    /*
-    this.barreras.create(960, 80, 'barrera_h')
-    this.barreras.create(920, 80, 'barrera_h')
-    this.barreras.create(880, 80, 'barrera_h')
-    */
 
     this.barreras_temp.create(960, 560, 'barrera_h')
     this.barreras_temp.create(1000, 560, 'barrera_h')
@@ -106,10 +101,8 @@ create:function(){
     this.bordes.create(1280, 0, 'b_lateral')
     this.bordes.create(0, 740, 'b_inferior')
 
-    //this.plat_temp.create(1000, 160, 'plat_h3t')
-
     this.meta = game.add.sprite(410, 280, 'meta');
-    this.jugador = game.add.sprite(960, 600, 'jugador')
+    this.jugador = game.add.sprite(1040, 600, 'jugador')
 
     /* Fisicas Jugador */
     this.jugador.enableBody = true;
@@ -136,12 +129,12 @@ create:function(){
     this.game.physics.arcade.enable(this.barreras)
     this.barreras.setAll('enableBody', true)
     this.barreras.setAll('body.immovable', true)
-    //this.barreras.setAll('alpha', 0);
+    this.barreras.setAll('alpha', 0);
 
     this.game.physics.arcade.enable(this.barreras_temp)
     this.barreras_temp.setAll('enableBody', true)
     this.barreras_temp.setAll('body.immovable', true)
-    //this.barreras_temp.setAll('alpha', 0);
+    this.barreras_temp.setAll('alpha', 0);
 
     this.game.physics.arcade.enable(this.bordes)
     this.bordes.setAll('enableBody', true)
@@ -154,19 +147,20 @@ create:function(){
 },
 
 update:function(){
+    cambio = 200;
     suelo = false;
     t_barrera = false;
     tiempo += 1;
-    if(tiempo == 76){ tiempo = 0 }
-    /*
+    if(tiempo == 250){ tiempo = 0 }
+    
     if( tiempo == 0 ){ temp = true }
     if( tiempo == cambio && temp == true ){ 
         temp = false;
-        cambio = Math.floor((Math.random() * (40 - 25)) + 25);
+        //cambio = Math.floor((Math.random() * (40 - 25)) + 25);
     }
-    */
+
     this.game.physics.arcade.collide(this.jugador, this.plat_roj, function(jugador, plat_roj){
-        jugador.body.x = 960
+        jugador.body.x = 1040
         jugador.body.y = 600
         jugador.body.velocity.x = 0
         jugador.body.velocity.y = 0
@@ -207,7 +201,7 @@ update:function(){
     }
 
     this.game.physics.arcade.overlap(this.jugador, this.bordes, function(jugador){
-        jugador.body.x = 240
+        jugador.body.x = 1040
         jugador.body.y = 600
         jugador.body.velocity.x = 0
         jugador.body.velocity.y = 0
