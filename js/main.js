@@ -29,7 +29,7 @@ preload:function(){
     game.load.image('plat_h3r', 'assets/120x40r.png')
     game.load.image('plat_h4r', 'assets/160x40r.png')
     game.load.image('plat_v4r', 'assets/40x160r.png')
-    game.load.image('plat_v13r', 'assets/40x520r.png')
+    game.load.image('plat_v12r', 'assets/40x480r.png')
     game.load.image('plat_h2t', 'assets/80x40t.png')
     game.load.image('plat_ct', 'assets/40x40t.png')
     game.load.image('plat_c', 'assets/40x40b.png')
@@ -60,8 +60,8 @@ create:function(){
 
     this.plat_ver.create(1160, 40, 'plat_v4b')
 
-    this.plat_roj.create(920, 200, 'plat_v13r')
-    this.plat_roj.create(1160, 200, 'plat_v13r')
+    this.plat_roj.create(920, 200, 'plat_v12r')
+    this.plat_roj.create(1160, 200, 'plat_v12r')
     this.plat_roj.create(1000, 40, 'plat_h4r')
     this.plat_roj.create(840, 40, 'plat_h2r')
     this.plat_roj.create(720, 160, 'plat_h2r')
@@ -151,6 +151,8 @@ update:function(){
     suelo = false;
     t_barrera = false;
     tiempo += 1;
+
+    temp = true;
     if(tiempo == 250){ tiempo = 0 }
     
     if( tiempo == 0 ){ temp = true }
