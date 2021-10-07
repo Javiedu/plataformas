@@ -21,6 +21,8 @@ preload:function(){
     game.load.image('plat_h4b', 'assets/160x40b.png')
     game.load.image('plat_h5b', 'assets/200x40b.png')
     game.load.image('plat_h6b', 'assets/240x40b.png')
+    game.load.image('plat_h11b', 'assets/440x40b.png')
+    game.load.image('plat_h12b', 'assets/480x40b.png')
     game.load.image('plat_v2b', 'assets/40x80b.png')
     game.load.image('plat_v3b', 'assets/40x120b.png')
     game.load.image('plat_v4b', 'assets/40x160b.png')
@@ -28,12 +30,18 @@ preload:function(){
     game.load.image('plat_h2r', 'assets/80x40r.png')
     game.load.image('plat_h3r', 'assets/120x40r.png')
     game.load.image('plat_h4r', 'assets/160x40r.png')
+    game.load.image('plat_h5r', 'assets/200x40r.png')
     game.load.image('plat_v4r', 'assets/40x160r.png')
+    game.load.image('plat_v5r', 'assets/40x200r.png')
+    game.load.image('plat_v9r', 'assets/40x360r.png')
     game.load.image('plat_v12r', 'assets/40x480r.png')
     game.load.image('plat_h2t', 'assets/80x40t.png')
     game.load.image('plat_ct', 'assets/40x40t.png')
     game.load.image('plat_c', 'assets/40x40b.png')
     //game.load.image('plat_h3t', 'assets/120x40t.png')
+    game.load.image('plat_h7a', 'assets/280x40a.png')
+    game.load.image('plat_h5a', 'assets/200x40a.png')
+    game.load.image('plat_ca', 'assets/40x40a.png')
 },	
 	
 create:function(){
@@ -45,6 +53,7 @@ create:function(){
     this.plat_hor = game.add.group()
     this.plat_ver = game.add.group()
     this.plat_roj = game.add.group()
+    this.plat_azul = game.add.group()
     this.plat_temp = game.add.group()
     this.barreras = game.add.group()
     this.barreras_temp = game.add.group()
@@ -55,10 +64,14 @@ create:function(){
     this.plat_hor.create(920, 40, 'plat_h2b')
     this.plat_hor.create(800, 160, 'plat_h4b')
     this.plat_hor.create(680, 40, 'plat_h4b')
-    this.plat_hor.create(640, 160, 'plat_h2b')
-    //this.plat_hor.create(520, 40, 'plat_c')
+    this.plat_hor.create(560, 160, 'plat_h4b')
+    this.plat_hor.create(400, 160, 'plat_h2b')
+    this.plat_hor.create(120, 40, 'plat_h12b')
+    this.plat_hor.create(40, 640, 'plat_h11b')
+    this.plat_hor.create(680, 560, 'plat_h5b')
 
     this.plat_ver.create(1160, 40, 'plat_v4b')
+    this.plat_ver.create(560, 600, 'plat_v2b')
 
     this.plat_roj.create(920, 200, 'plat_v12r')
     this.plat_roj.create(1160, 200, 'plat_v12r')
@@ -66,6 +79,14 @@ create:function(){
     this.plat_roj.create(840, 40, 'plat_h2r')
     this.plat_roj.create(720, 160, 'plat_h2r')
     this.plat_roj.create(600, 40, 'plat_h2r')
+    this.plat_roj.create(480, 160, 'plat_h2r')
+    this.plat_roj.create(120, 200, 'plat_v9r')
+    this.plat_roj.create(280, 520, 'plat_h5r')
+    this.plat_roj.create(240, 360, 'plat_v5r')
+
+    this.plat_azul.create(120, 160, 'plat_h7a')
+    this.plat_azul.create(560, 560, 'plat_ca')
+    this.plat_azul.create(480, 440, 'plat_h5a')
 
     this.plat_temp.create(960, 520, 'plat_h2t')
     this.plat_temp.create(1120, 520, 'plat_ct')
@@ -75,6 +96,8 @@ create:function(){
     this.plat_temp.create(1120, 280, 'plat_ct')
     this.plat_temp.create(1080, 160, 'plat_h2t')
     this.plat_temp.create(960, 160, 'plat_ct')
+
+    this.plat_temp.create(320, 440, 'plat_ct')
 
     this.barreras_temp.create(960, 560, 'barrera_h')
     this.barreras_temp.create(1000, 560, 'barrera_h')
@@ -97,12 +120,14 @@ create:function(){
     this.barreras_temp.create(1000, 160, 'barrera_v')
     this.barreras_temp.create(1075, 160, 'barrera_v')
 
+
+    
     this.bordes.create(0, 0, 'b_lateral')
     this.bordes.create(1280, 0, 'b_lateral')
     this.bordes.create(0, 740, 'b_inferior')
 
-    this.meta = game.add.sprite(410, 280, 'meta');
-    this.jugador = game.add.sprite(1040, 600, 'jugador')
+    this.meta = game.add.sprite(180, 400, 'meta');
+    this.jugador = game.add.sprite(320, 600, 'jugador')
 
     /* Fisicas Jugador */
     this.jugador.enableBody = true;
@@ -121,6 +146,10 @@ create:function(){
     this.game.physics.arcade.enable(this.plat_roj)
     this.plat_roj.setAll('enableBody', true)
     this.plat_roj.setAll('body.immovable', true)
+
+    this.game.physics.arcade.enable(this.plat_azul)
+    this.plat_azul.setAll('enableBody', true)
+    this.plat_azul.setAll('body.immovable', true)
 
     this.game.physics.arcade.enable(this.plat_temp)
     this.plat_temp.setAll('enableBody', true)
@@ -153,6 +182,7 @@ update:function(){
     tiempo += 1;
 
     temp = true;
+    /*
     if(tiempo == 250){ tiempo = 0 }
     
     if( tiempo == 0 ){ temp = true }
@@ -160,10 +190,11 @@ update:function(){
         temp = false;
         //cambio = Math.floor((Math.random() * (40 - 25)) + 25);
     }
+    */
 
     this.game.physics.arcade.collide(this.jugador, this.plat_roj, function(jugador, plat_roj){
-        jugador.body.x = 1040
-        jugador.body.y = 600
+        jugador.body.x = 320
+        jugador.body.y = 400
         jugador.body.velocity.x = 0
         jugador.body.velocity.y = 0
         tiempo = 0;
@@ -175,6 +206,8 @@ update:function(){
     })
     this.game.physics.arcade.collide(this.jugador, this.plat_ver)
     
+    this.game.physics.arcade.collide(this.jugador, this.plat_azul)
+
     if(temp == true){
         this.plat_temp.setAll('alpha', 1);
         this.game.physics.arcade.collide(this.jugador, this.plat_temp, function(){
@@ -203,8 +236,8 @@ update:function(){
     }
 
     this.game.physics.arcade.overlap(this.jugador, this.bordes, function(jugador){
-        jugador.body.x = 1040
-        jugador.body.y = 600
+        jugador.body.x = 400
+        jugador.body.y = 540
         jugador.body.velocity.x = 0
         jugador.body.velocity.y = 0
         tiempo = 0;
