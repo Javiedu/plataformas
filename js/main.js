@@ -5,6 +5,7 @@ var t_barrera = false;
 var cambio = 38;
 var ganado = false;
 var intentos = 0;
+var t_azul;
 
 var mainState={
 
@@ -68,7 +69,9 @@ create:function(){
     this.plat_hor.create(400, 160, 'plat_h2b')
     this.plat_hor.create(120, 40, 'plat_h12b')
     this.plat_hor.create(40, 640, 'plat_h11b')
-    this.plat_hor.create(680, 560, 'plat_h5b')
+    this.plat_hor.create(680, 560, 'plat_h2b')
+    this.plat_hor.create(760, 440, 'plat_h2b')
+    this.plat_hor.create(360, 440, 'plat_c')
 
     this.plat_ver.create(1160, 40, 'plat_v4b')
     this.plat_ver.create(560, 600, 'plat_v2b')
@@ -86,7 +89,7 @@ create:function(){
 
     this.plat_azul.create(120, 160, 'plat_h7a')
     this.plat_azul.create(560, 560, 'plat_ca')
-    this.plat_azul.create(480, 440, 'plat_h5a')
+    this.plat_azul.create(480, 320, 'plat_h5a')
 
     this.plat_temp.create(960, 520, 'plat_h2t')
     this.plat_temp.create(1120, 520, 'plat_ct')
@@ -95,9 +98,33 @@ create:function(){
     this.plat_temp.create(960, 280, 'plat_h2t')
     this.plat_temp.create(1120, 280, 'plat_ct')
     this.plat_temp.create(1080, 160, 'plat_h2t')
-    this.plat_temp.create(960, 160, 'plat_ct')
+    //this.plat_temp.create(960, 160, 'plat_ct')
 
-    this.plat_temp.create(320, 440, 'plat_ct')
+    //this.plat_temp.create(360, 440, 'plat_ct')
+
+    this.barreras.create(120, 80, 'barrera_h')
+    this.barreras.create(160, 80, 'barrera_h')
+    this.barreras.create(200, 80, 'barrera_h')
+    this.barreras.create(240, 80, 'barrera_h')
+    this.barreras.create(280, 80, 'barrera_h')
+    this.barreras.create(320, 80, 'barrera_h')
+    this.barreras.create(360, 80, 'barrera_h')
+    this.barreras.create(400, 80, 'barrera_h')
+    this.barreras.create(800, 480, 'barrera_h')
+    this.barreras.create(760, 480, 'barrera_h')
+    this.barreras.create(680, 600, 'barrera_h')
+    this.barreras.create(720, 600, 'barrera_h')
+    this.barreras.create(360, 480, 'barrera_h')
+
+    //this.barreras.create(675, 560, 'barrera_v')
+    this.barreras.create(760, 560, 'barrera_v')
+    this.barreras.create(755, 440, 'barrera_v')
+    this.barreras.create(840, 440, 'barrera_v')
+    this.barreras.create(400, 440, 'barrera_v')
+    this.barreras.create(355, 440, 'barrera_v')
+    this.barreras.create(480, 640, 'barrera_v')
+    this.barreras.create(35, 640, 'barrera_v')
+
 
     this.barreras_temp.create(960, 560, 'barrera_h')
     this.barreras_temp.create(1000, 560, 'barrera_h')
@@ -108,7 +135,6 @@ create:function(){
     this.barreras_temp.create(960, 320, 'barrera_h')
     this.barreras_temp.create(1000, 320, 'barrera_h')
     this.barreras_temp.create(1120, 320, 'barrera_h')
-    this.barreras_temp.create(960, 200, 'barrera_h')
     this.barreras_temp.create(1080, 200, 'barrera_h')
     this.barreras_temp.create(1120, 200, 'barrera_h')
     this.barreras_temp.create(1040, 520, 'barrera_v')
@@ -117,7 +143,6 @@ create:function(){
     this.barreras_temp.create(1075, 400, 'barrera_v')
     this.barreras_temp.create(1040, 280, 'barrera_v')
     this.barreras_temp.create(1115, 280, 'barrera_v')
-    this.barreras_temp.create(1000, 160, 'barrera_v')
     this.barreras_temp.create(1075, 160, 'barrera_v')
 
 
@@ -127,7 +152,7 @@ create:function(){
     this.bordes.create(0, 740, 'b_inferior')
 
     this.meta = game.add.sprite(180, 400, 'meta');
-    this.jugador = game.add.sprite(320, 600, 'jugador')
+    this.jugador = game.add.sprite(1060, 600, 'jugador')
 
     /* Fisicas Jugador */
     this.jugador.enableBody = true;
@@ -171,18 +196,17 @@ create:function(){
     this.bordes.setAll('alpha', 0);
 
     this.game.physics.arcade.enable(this.meta)
-    this.metaenableBody = true;
+    this.meta.enableBody = true;
     this.meta.body.immovable = true;
 },
 
 update:function(){
-    cambio = 200;
+    cambio = 120;
     suelo = false;
+    t_azul = false;
     t_barrera = false;
     tiempo += 1;
 
-    temp = true;
-    /*
     if(tiempo == 250){ tiempo = 0 }
     
     if( tiempo == 0 ){ temp = true }
@@ -190,23 +214,24 @@ update:function(){
         temp = false;
         //cambio = Math.floor((Math.random() * (40 - 25)) + 25);
     }
-    */
 
     this.game.physics.arcade.collide(this.jugador, this.plat_roj, function(jugador, plat_roj){
-        jugador.body.x = 320
-        jugador.body.y = 400
+        jugador.body.x = 1060
+        jugador.body.y = 600
         jugador.body.velocity.x = 0
         jugador.body.velocity.y = 0
         tiempo = 0;
         intentos += 1
     })
 
-    this.game.physics.arcade.collide(this.jugador, this.plat_hor, function(jugador) {
+    this.game.physics.arcade.collide(this.jugador, this.plat_hor, function(jugador){
         suelo = true
     })
     this.game.physics.arcade.collide(this.jugador, this.plat_ver)
     
-    this.game.physics.arcade.collide(this.jugador, this.plat_azul)
+    this.game.physics.arcade.collide(this.jugador, this.plat_azul, function(){
+        t_azul = true
+    })
 
     if(temp == true){
         this.plat_temp.setAll('alpha', 1);
@@ -236,8 +261,8 @@ update:function(){
     }
 
     this.game.physics.arcade.overlap(this.jugador, this.bordes, function(jugador){
-        jugador.body.x = 400
-        jugador.body.y = 540
+        jugador.body.x = 1060
+        jugador.body.y = 600
         jugador.body.velocity.x = 0
         jugador.body.velocity.y = 0
         tiempo = 0;
