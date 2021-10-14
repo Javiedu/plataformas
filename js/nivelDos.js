@@ -207,7 +207,7 @@ update:function(){
     t_barrera = false;
     tiempo += 1;
 
-    if(tiempo == 250){ tiempo = 0 }
+    if(tiempo == 200){ tiempo = 0 }
     
     if( tiempo == 0 ){ temp = true }
     if( tiempo == cambio && temp == true ){ 
