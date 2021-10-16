@@ -1,7 +1,7 @@
 var suelo;
 var tiempo = 0;
 var temp = true
-var t_barrera = false;
+var colisionBarrera = false;
 var cambio = 38;
 var ganado = false;
 var intentos = 0;
@@ -28,7 +28,6 @@ preload:function(){
     game.load.image('plat_v4r', 'assets/40x160r.png')
     game.load.image('plat_h2t', 'assets/80x40t.png')
     game.load.image('plat_c', 'assets/40x40b.png')
-    //game.load.image('plat_h3t', 'assets/120x40t.png')
 },	
 	
 create:function(){
@@ -37,40 +36,37 @@ create:function(){
 
     game.add.image(0, 0, 'fondo')
 
-    this.plat_hor = game.add.group()
-    this.plat_ver = game.add.group()
-    this.plat_roj = game.add.group()
-    this.plat_temp = game.add.group()
+    this.platHor = game.add.group()
+    this.platVer = game.add.group()
+    this.platRoj = game.add.group()
+    this.platTemp = game.add.group()
     this.barreras = game.add.group()
-    this.barreras_temp = game.add.group()
+    this.barrerasTemp = game.add.group()
     this.bordes = game.add.group()
 
 
-    this.plat_hor.create(240, 640, 'plat_h5b');
-    this.plat_hor.create(560, 520, 'plat_h2b');
-    this.plat_hor.create(720, 520, 'plat_h2b');
-    this.plat_hor.create(880, 440, 'plat_h6b');
-    this.plat_hor.create(680, 160, 'plat_h6b');
-    this.plat_hor.create(370, 320, 'plat_h3b');
-    //this.plat_hor.create(1120, 160, 'plat_c');
+    this.platHor.create(240, 640, 'plat_h5b');
+    this.platHor.create(560, 520, 'plat_h2b');
+    this.platHor.create(720, 520, 'plat_h2b');
+    this.platHor.create(880, 440, 'plat_h6b');
+    this.platHor.create(680, 160, 'plat_h6b');
+    this.platHor.create(370, 320, 'plat_h3b');
 
-    this.plat_ver.create(560, 560, 'plat_v3b');
-    this.plat_ver.create(880, 480, 'plat_v2b');
-    this.plat_ver.create(1120, 200, 'plat_v7b');
+    this.platVer.create(560, 560, 'plat_v3b');
+    this.platVer.create(880, 480, 'plat_v2b');
+    this.platVer.create(1120, 200, 'plat_v7b');
 
-    this.plat_roj.create(640, 520, 'plat_h2r');
-    this.plat_roj.create(800, 520, 'plat_h2r');
-    this.plat_roj.create(490, 320, 'plat_h3r');
-    this.plat_roj.create(250, 320, 'plat_h3r');
-    this.plat_roj.create(880, 200, 'plat_v4r');
-    this.plat_roj.create(1080, 160, 'plat_h2r');
+    this.platRoj.create(640, 520, 'plat_h2r');
+    this.platRoj.create(800, 520, 'plat_h2r');
+    this.platRoj.create(490, 320, 'plat_h3r');
+    this.platRoj.create(250, 320, 'plat_h3r');
+    this.platRoj.create(880, 200, 'plat_v4r');
+    this.platRoj.create(1080, 160, 'plat_h2r');
 
-    this.plat_temp.create(1040, 360, 'plat_h2t')
-    this.plat_temp.create(920, 240, 'plat_h2t')
+    this.platTemp.create(1040, 360, 'plat_h2t')
+    this.platTemp.create(920, 240, 'plat_h2t')
 
     this.barreras.create(920, 160, 'barrera_v')
-    //this.barreras.create(1115, 160, 'barrera_v')
-    //this.barreras.create(1115, 200, 'barrera_v')
     this.barreras.create(875, 440, 'barrera_v')
     this.barreras.create(555, 520, 'barrera_v')
     this.barreras.create(440, 640, 'barrera_v')
@@ -81,19 +77,17 @@ create:function(){
     this.barreras.create(410, 360, 'barrera_h')
     this.barreras.create(370, 360, 'barrera_h')
 
-    this.barreras_temp.create(1000, 240, 'barrera_v')
-    this.barreras_temp.create(1035, 360, 'barrera_v')
+    this.barrerasTemp.create(1000, 240, 'barrera_v')
+    this.barrerasTemp.create(1035, 360, 'barrera_v')
 
-    this.barreras_temp.create(1040, 400, 'barrera_h')
-    this.barreras_temp.create(1080, 400, 'barrera_h')
-    this.barreras_temp.create(920, 280, 'barrera_h')
-    this.barreras_temp.create(960, 280, 'barrera_h')
+    this.barrerasTemp.create(1040, 400, 'barrera_h')
+    this.barrerasTemp.create(1080, 400, 'barrera_h')
+    this.barrerasTemp.create(920, 280, 'barrera_h')
+    this.barrerasTemp.create(960, 280, 'barrera_h')
 
     this.bordes.create(0, 0, 'b_lateral')
     this.bordes.create(1280, 0, 'b_lateral')
     this.bordes.create(0, 740, 'b_inferior')
-
-    //this.plat_temp.create(1000, 160, 'plat_h3t')
 
     this.meta = game.add.sprite(410, 280, 'meta');
     this.jugador = game.add.sprite(240, 600, 'jugador')
@@ -104,31 +98,31 @@ create:function(){
     this.jugador.body.collideWorldBounds = false;
     this.jugador.body.gravity.y = 2000;
 
-    this.game.physics.arcade.enable(this.plat_hor)
-    this.plat_hor.setAll('enableBody', true)
-    this.plat_hor.setAll('body.immovable', true)
+    this.game.physics.arcade.enable(this.platHor)
+    this.platHor.setAll('enableBody', true)
+    this.platHor.setAll('body.immovable', true)
 
-    this.game.physics.arcade.enable(this.plat_ver)
-    this.plat_ver.setAll('enableBody', true)
-    this.plat_ver.setAll('body.immovable', true)
+    this.game.physics.arcade.enable(this.platVer)
+    this.platVer.setAll('enableBody', true)
+    this.platVer.setAll('body.immovable', true)
 
-    this.game.physics.arcade.enable(this.plat_roj)
-    this.plat_roj.setAll('enableBody', true)
-    this.plat_roj.setAll('body.immovable', true)
+    this.game.physics.arcade.enable(this.platRoj)
+    this.platRoj.setAll('enableBody', true)
+    this.platRoj.setAll('body.immovable', true)
 
-    this.game.physics.arcade.enable(this.plat_temp)
-    this.plat_temp.setAll('enableBody', true)
-    this.plat_temp.setAll('body.immovable', true)
+    this.game.physics.arcade.enable(this.platTemp)
+    this.platTemp.setAll('enableBody', true)
+    this.platTemp.setAll('body.immovable', true)
 
     this.game.physics.arcade.enable(this.barreras)
     this.barreras.setAll('enableBody', true)
     this.barreras.setAll('body.immovable', true)
     this.barreras.setAll('alpha', 0);
 
-    this.game.physics.arcade.enable(this.barreras_temp)
-    this.barreras_temp.setAll('enableBody', true)
-    this.barreras_temp.setAll('body.immovable', true)
-    this.barreras_temp.setAll('alpha', 0);
+    this.game.physics.arcade.enable(this.barrerasTemp)
+    this.barrerasTemp.setAll('enableBody', true)
+    this.barrerasTemp.setAll('body.immovable', true)
+    this.barrerasTemp.setAll('alpha', 0);
 
     this.game.physics.arcade.enable(this.bordes)
     this.bordes.setAll('enableBody', true)
@@ -142,7 +136,7 @@ create:function(){
 
 update:function(){
     suelo = false;
-    t_barrera = false;
+    colisionBarrera = false;
     tiempo += 1;
     if(tiempo == 76){ tiempo = 0 }
 
@@ -152,7 +146,7 @@ update:function(){
         cambio = Math.floor((Math.random() * (40 - 25)) + 25);
     }
 
-    this.game.physics.arcade.collide(this.jugador, this.plat_roj, function(jugador, plat_roj){
+    this.game.physics.arcade.collide(this.jugador, this.platRoj, function(jugador, platRoj){
         jugador.body.x = 240
         jugador.body.y = 600
         jugador.body.velocity.x = 0
@@ -161,27 +155,27 @@ update:function(){
         intentos += 1
     })
 
-    this.game.physics.arcade.collide(this.jugador, this.plat_hor, function(jugador) {
+    this.game.physics.arcade.collide(this.jugador, this.platHor, function(jugador) {
         suelo = true
     })
-    this.game.physics.arcade.collide(this.jugador, this.plat_ver)
+    this.game.physics.arcade.collide(this.jugador, this.platVer)
     
     if(temp == true){
-        this.plat_temp.setAll('alpha', 1);
-        this.game.physics.arcade.collide(this.jugador, this.plat_temp, function(){
+        this.platTemp.setAll('alpha', 1);
+        this.game.physics.arcade.collide(this.jugador, this.platTemp, function(){
         suelo = true
         })
     } else {
-        this.plat_temp.setAll('alpha', 0);
+        this.platTemp.setAll('alpha', 0);
     }
 
     this.game.physics.arcade.overlap(this.jugador, this.barreras, function(){
-        t_barrera = true
+        colisionBarrera = true
     })
 
     if(temp == true){
-        this.game.physics.arcade.overlap(this.jugador, this.barreras_temp, function(){
-        t_barrera = true
+        this.game.physics.arcade.overlap(this.jugador, this.barrerasTemp, function(){
+        colisionBarrera = true
         })
     }
 
@@ -201,24 +195,30 @@ update:function(){
         tiempo = 0;
     })
     
-    if(this.input.keyboard.isDown(Phaser.Keyboard.LEFT) && this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && suelo == true && t_barrera == false){
-        this.jugador.body.velocity.x = -400;
-        this.jugador.body.velocity.y = -800;
-    } else if(this.input.keyboard.isDown(Phaser.Keyboard.RIGHT) && this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && suelo == true && t_barrera == false){
-        this.jugador.body.velocity.x = 400;
-        this.jugador.body.velocity.y = -800;
-    } else if(this.input.keyboard.isDown(Phaser.Keyboard.LEFT) && !suelo == true){
-        this.jugador.body.velocity.x = -200;
-    } else if(this.input.keyboard.isDown(Phaser.Keyboard.RIGHT) && !suelo == true){
-        this.jugador.body.velocity.x = 200;
-    } else if(this.input.keyboard.isDown(Phaser.Keyboard.LEFT) && suelo == true){
-        this.jugador.body.velocity.x = -400;
-    } else if (this.input.keyboard.isDown(Phaser.Keyboard.RIGHT) && suelo == true){
-        this.jugador.body.velocity.x = 400;
-    } else if(this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && suelo == true && t_barrera == false){
-        this.jugador.body.velocity.y = -800;
-    } else if(suelo == true){
+    
+    if( ganado == false ){
+        if(this.input.keyboard.isDown(Phaser.Keyboard.LEFT) && this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && suelo == true && colisionBarrera == false){
+            this.jugador.body.velocity.x = -400;
+            this.jugador.body.velocity.y = -800;
+        } else if(this.input.keyboard.isDown(Phaser.Keyboard.RIGHT) && this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && suelo == true && colisionBarrera == false){
+            this.jugador.body.velocity.x = 400;
+            this.jugador.body.velocity.y = -800;
+        } else if(this.input.keyboard.isDown(Phaser.Keyboard.LEFT) && !suelo == true){
+            this.jugador.body.velocity.x = -200;
+        } else if(this.input.keyboard.isDown(Phaser.Keyboard.RIGHT) && !suelo == true){
+            this.jugador.body.velocity.x = 200;
+        } else if(this.input.keyboard.isDown(Phaser.Keyboard.LEFT) && suelo == true){
+            this.jugador.body.velocity.x = -400;
+        } else if (this.input.keyboard.isDown(Phaser.Keyboard.RIGHT) && suelo == true){
+            this.jugador.body.velocity.x = 400;
+        } else if(this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && suelo == true && colisionBarrera == false){
+            this.jugador.body.velocity.y = -800;
+        } else if(suelo == true){
+            this.jugador.body.velocity.x = 0;
+        }
+    } else {
         this.jugador.body.velocity.x = 0;
+        this.jugador.body.velocity.y = 0;
     }
 }	
 };
