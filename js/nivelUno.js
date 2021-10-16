@@ -4,6 +4,7 @@ var temp = true
 var colisionBarrera = false;
 var cambio = 38;
 var ganado = false;
+var tiempoGanado = 0;
 var intentos = 0;
 
 var escenaUno={
@@ -135,6 +136,7 @@ create:function(){
 },
 
 update:function(){
+    tiempoGanado += 1;
     suelo = false;
     colisionBarrera = false;
     tiempo += 1;
@@ -195,6 +197,7 @@ update:function(){
         tiempo = 0;
     })
     
+    if(tiempoGanado >= 200 && ganado == true){ game.state.start('menu') }
     
     if( ganado == false ){
         if(this.input.keyboard.isDown(Phaser.Keyboard.LEFT) && this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && suelo == true && colisionBarrera == false){

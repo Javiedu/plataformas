@@ -5,6 +5,7 @@ var colisionBarrera = false;
 var cambio = 38;
 var ganado = false;
 var intentos = 0;
+var tiempoGanado = 0;
 var colisionAzul;
 
 var escenaDos={
@@ -37,6 +38,8 @@ preload:function(){
     game.load.image('plat_h7a', 'assets/280x40a.png')
     game.load.image('plat_h5a', 'assets/200x40a.png')
     game.load.image('plat_ca', 'assets/40x40a.png')
+    game.load.image('lianaH', 'assets/lianaHorizontal.png')
+    game.load.image('lianaV', 'assets/lianaVertical.png')
 },	
 	
 create:function(){
@@ -53,6 +56,7 @@ create:function(){
     this.barreras = game.add.group()
     this.barrerasTemp = game.add.group()
     this.bordes = game.add.group()
+    this.lianas = game.add.group()
 
 
     this.platHor.create(960, 640, 'plat_h5b')
@@ -133,12 +137,22 @@ create:function(){
     this.barrerasTemp.create(1040, 280, 'barrera_v')
     this.barrerasTemp.create(1115, 280, 'barrera_v')
     this.barrerasTemp.create(1075, 160, 'barrera_v')
-
-
     
     this.bordes.create(0, 0, 'b_lateral')
     this.bordes.create(1280, 0, 'b_lateral')
     this.bordes.create(0, 740, 'b_inferior')
+
+    this.lianas.create(675, 560, 'lianaV')
+    this.lianas.create(440, 80, 'lianaH')
+    this.lianas.create(480, 80, 'lianaH')
+    this.lianas.create(520, 80, 'lianaH')
+    this.lianas.create(560, 80, 'lianaH')
+    this.lianas.create(680, 80, 'lianaH')
+    this.lianas.create(720, 80, 'lianaH')
+    this.lianas.create(760, 80, 'lianaH')
+    this.lianas.create(800, 80, 'lianaH')
+    this.lianas.create(920, 80, 'lianaH')
+    this.lianas.create(960, 80, 'lianaH')
 
     this.meta = game.add.sprite(180, 400, 'meta');
     this.jugador = game.add.sprite(1060, 600, 'jugador')
@@ -194,6 +208,7 @@ update:function(){
     colisionAzul = false;
     colisionBarrera = false;
     tiempo += 1;
+    tiempoGanado += 1;
 
     if(tiempo == 200){ tiempo = 0 }
     
@@ -244,6 +259,7 @@ update:function(){
             game.add.text(100, 50, 'Has ganado');
             game.add.text(1000, 50, intentos + ' Intentos');
             ganado = true
+            tiempoGanado = 0;
         })
     }
 
@@ -254,7 +270,9 @@ update:function(){
         jugador.body.velocity.y = 0
         tiempo = 0;
     })
-        
+    
+    if(tiempoGanado >= 200 && ganado == true){ game.state.start('menu') }
+
     if( ganado == false ){
         if(this.input.keyboard.isDown(Phaser.Keyboard.LEFT) && this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && suelo == true && colisionBarrera == false){
             this.jugador.body.velocity.x = -400;
