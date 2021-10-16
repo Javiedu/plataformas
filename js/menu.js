@@ -1,4 +1,4 @@
-var mainState={
+var menuState={
 
 preload:function(){
     game.load.image('logo', 'assets/logo.png')
@@ -19,8 +19,8 @@ create:function(){
     this.botonUno.inputEnabled = true;
     this.botonDos.inputEnabled = true;
 
-    this.botonUno.events.onInputDown.add(function(){console.log('Boton 1')}, this);
-    this.botonDos.events.onInputDown.add(function(){console.log('Boton 2')}, this);
+    this.botonUno.events.onInputDown.add(function(){game.state.start('nivelUno')}, this);
+    this.botonDos.events.onInputDown.add(function(){game.state.start('nivelDos')}, this);
 
 },
 
@@ -30,5 +30,5 @@ update:function(){
 };
 
 var game=new Phaser.Game(1290,750,Phaser.AUTO,'gameDIV');
-game.state.add('main', mainState);
-game.state.start('main');
+game.state.add('menu', menuState);
+game.state.start('menu');
