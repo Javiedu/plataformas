@@ -6,7 +6,7 @@ var cambio = 38;
 var ganado = false;
 var intentos = 0;
 
-var mainState={
+var escenaUno={
 
 preload:function(){
     game.load.image('fondo', 'assets/fondo1.png')
@@ -200,7 +200,7 @@ update:function(){
         jugador.body.velocity.y = 0
         tiempo = 0;
     })
-        
+    
     if(this.input.keyboard.isDown(Phaser.Keyboard.LEFT) && this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && suelo == true && t_barrera == false){
         this.jugador.body.velocity.x = -400;
         this.jugador.body.velocity.y = -800;
@@ -223,6 +223,4 @@ update:function(){
 }	
 };
 
-var game=new Phaser.Game(1290,750,Phaser.AUTO,'gameDIV');
-game.state.add('main', mainState);
-game.state.start('main');
+game.state.add('nivelUno', escenaUno);

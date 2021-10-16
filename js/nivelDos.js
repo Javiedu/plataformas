@@ -7,7 +7,7 @@ var ganado = false;
 var intentos = 0;
 var t_azul;
 
-var mainState={
+var escenaDos={
 
 preload:function(){
     game.load.image('fondo', 'assets/fondo1.png')
@@ -291,6 +291,4 @@ update:function(){
 }	
 };
 
-var game=new Phaser.Game(1290,750,Phaser.AUTO,'gameDIV');
-game.state.add('main', mainState);
-game.state.start('main');
+game.state.add('nivelDos', escenaDos);
